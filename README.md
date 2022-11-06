@@ -49,3 +49,14 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
+# Build the Docker image for the current folder 
+# and tag it with `react-assignment`
+docker build . -t react-assignment
+
+# Check the image was created
+docker images | grep react-assignment
+
+# Run the image in detached mode 
+# and map port 3000 inside the container with 3000 on current host
+docker run -p 3000:3000 -d react-assignment
+
