@@ -1,0 +1,3 @@
+{
+    "editor.gotoLocation.alternativeImplementationCommand": "editor.action.goToImplementation"
+}
