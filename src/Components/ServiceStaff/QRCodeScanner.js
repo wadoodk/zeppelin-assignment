@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { QrReader } from 'react-qr-reader';
 
@@ -10,32 +10,37 @@ const QRCodeScanner = (props) => {
     width: 320,
   };
 
-  const [result, setResult] = useState('No result');
+  const [data, setData] = useState('No result');
+  const [selected, setSelected] = useState('environment');
 
-  const handleScan = (result) => {
-    if (result) {
-      setResult(result);
+  const handleScan = (res, err) => {
+    if (res) {
+      // console.log(res);
+      setData(res?.text);
+      props.onQrReaderCapture(JSON.parse(res?.text))
     }
   };
 
   const handleError = (error) => {
-    console.log(error);
+    // console.log(error);
   };
+  useEffect(() => {}, []);
 
   return (
     <>
       <QrReader
-        delay={delay}
-        style={previewStyle}
-        onError={handleError}
-        onScan={handleScan}
-        constraints={{facingMode: 'environment'}}
+        delay={100}
+        // onError={handleError}
+        onResult={handleScan}
+        style={{ height: 240, width: 320 }}
       />
-      <p>{result}</p>
+      <p>{data}</p>
     </>
   );
 };
 
-QRCodeScanner.propTypes = {};
+QRCodeScanner.propTypes = {
+  onQrReaderCapture: PropTypes.func,
+};
 
 export default QRCodeScanner;

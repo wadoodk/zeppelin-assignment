@@ -1,3 +1,4 @@
+import {useState}from 'react'
 import {
   // Button,
   Container,
@@ -7,11 +8,19 @@ import {
   List,
   Segment,
 } from 'semantic-ui-react';
+import machineData from '../../Data/machine_data';
 import QRCodeScanner from './QRCodeScanner';
 import SearchSerialForm from './SearchSerialForm';
 
 const ServiceStaff = () => {
+  const [answer, setAnswer] = useState(null);
   const handleSearchSubmit = (input) => {};
+  const onQrReaderCapture= (data) => {
+    console.log("onQrReaderCapture", typeof data, data);
+    if (data?.serial_number) {
+      setAnswer(machineData.find(x => x.serial_number === data?.serial_number))
+    }
+  }
   return (
     <Container>
       <Segment style={{ padding: '8em 0em' }} vertical>
@@ -26,7 +35,7 @@ const ServiceStaff = () => {
             </Grid.Column>
             <Grid.Column floated="right" width={6}>
               <Grid.Row>
-                <QRCodeScanner />
+                <QRCodeScanner  onQrReaderCapture={onQrReaderCapture}/>
               </Grid.Row>
               {/* <Grid.Row>
                 <Button size="huge">Check Them Out</Button>
