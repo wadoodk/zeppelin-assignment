@@ -43,6 +43,7 @@ const AssetTypeGraph = (props) => {
 
   useEffect(() => {
     const datasets = _.chain(props.data)
+      .sortBy('asset_type')
       .groupBy('asset_type')
       .map((value, key) => {
         return {

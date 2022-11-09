@@ -20,10 +20,11 @@ const SearchSerialForm = (props) => {
         <Form.Input
           placeholder="Serial Number"
           name="serial_number"
+          data-testid="text-input"
           value={serialNumber}
           onChange={handleChange}
         />
-        <Form.Button content="Submit" />
+        <Form.Button content="Submit" data-testid="submit-form" />
       </Form.Group>
     </Form>
   );

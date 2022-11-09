@@ -13,11 +13,9 @@ import SearchSerialForm from './SearchSerialForm';
 const ServiceStaff = () => {
   const [answer, setAnswer] = useState(null);
   const handleSearchSubmit = (input) => {
-    console.log("inout", input, machineData.slice(0,1), machineData.find((x) => x.serial_number === input));
     setAnswer(machineData.find((x) => x.serial_number === input));
   };
   const onQrReaderCapture = (data) => {
-    console.log('onQrReaderCapture', typeof data, data);
     if (data?.serial_number) {
       setAnswer(
         machineData.find((x) => x.serial_number === data?.serial_number),

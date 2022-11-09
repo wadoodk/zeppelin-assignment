@@ -20,11 +20,11 @@ const DisplayData = (props) => {
     />
   );
   return (
-    <Card style={{ margin: '1em 0em' }}>
+    <Card style={{ margin: '1em 0em' }}  data-testid="display-data-card">
       <div ref={qrRef}>{qrcode}</div>
       <Card.Content>
         <Card.Header>
-          Sr. #: <code>{props.data.serial_number}</code>
+          Sr. #: <code data-testid="data-serial">{props.data.serial_number}</code>
         </Card.Header>
         <Card.Meta></Card.Meta>
         <Card.Description>
