@@ -16,7 +16,6 @@ const QRCodeScanner = (props) => {
   const handleError = (error) => {
     console.log(error);
   };
-  useEffect(() => {}, []);
 
   return (
     <>
