@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Line } from 'react-chartjs-2';
@@ -39,28 +39,34 @@ const AssetTypeGraph = (props) => {
     },
   };
 
-  const [datasets] = useState(_.chain(props.data)
-    .groupBy('asset_type')
-    .map((value, key) => {
-      return {
-        label: key,
-        data: value.length,
-      };
-    })
-    .value());
+  const [data, setData] = useState({});
 
-  const [data] = useState({
-    labels: datasets.map((row) => row.label),
-    datasets: [
-      {
-        fill: true,
-        label: '',
-        data: datasets.map((row) => row.data),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  });
+  useEffect(() => {
+    const datasets = _.chain(props.data)
+      .groupBy('asset_type')
+      .map((value, key) => {
+        return {
+          label: key,
+          data: value.length,
+        };
+      })
+      .value();
+    const temp = datasets.map((row) => row.data);
+    const labels = datasets.map((row) => row.label);
+
+    setData({
+      labels: labels,
+      datasets: [
+        {
+          fill: true,
+          label: '',
+          data: temp,
+          borderColor: 'rgb(53, 162, 235)',
+          backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        },
+      ],
+    });
+  }, [props.data]);
 
   return data?.datasets && <Line options={options} data={data} />;
 };
