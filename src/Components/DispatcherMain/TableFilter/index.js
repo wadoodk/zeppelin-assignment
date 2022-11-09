@@ -1,9 +1,10 @@
-import  { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 
 const TableFilter = (props) => {
-  const [selection, setSelection] = useState(null);
+  const [selectionData, setSelectionData] = useState([]);
+  const inputRef = useRef();
   const customers = useMemo(
     () =>
       props.customers.map((row) => {
@@ -11,10 +12,9 @@ const TableFilter = (props) => {
       }),
     [props.customers],
   );
-//   console.log(customers);
   const handleFilter = (e, { value }) => {
-    console.log('handleFilter', value);
-    setSelection(value);
+    e.preventDefault();
+    setSelectionData(value);
     props.handleFilter(value);
   };
 
@@ -22,13 +22,12 @@ const TableFilter = (props) => {
     <Dropdown
       clearable
       fluid
-      //   multiple
-      search
       selection
+      ref={inputRef}
       options={customers}
-      value={selection}
+      value={selectionData}
       onChange={handleFilter}
-      placeholder="Select Customers"
+      placeholder="Select Customer"
     />
   );
 };

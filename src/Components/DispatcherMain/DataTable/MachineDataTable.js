@@ -7,29 +7,17 @@ import DataTableRow from './DataTableRow';
 const MachineDataTable = (props) => {
   const perPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const [column, setColumn] = useState(null);
-  const [direction, setDirection] = useState('ascending');
-  const [tablelength, setTablelength] = useState(
-    Math.ceil(props.list.length / perPage),
+  const totalPages = useMemo(
+    () => Math.ceil(props.list.length / perPage),
+    [props.list],
   );
-  const totalPages = useMemo(() => props.list.length / perPage, [props.list]);
   const totalCount = useMemo(() => props.list.length, [props.list]);
   const [limitList, setLimitList] = useState(
     props.list.slice((currentPage - 1) * perPage, currentPage * perPage),
   );
 
   const handleSort = (value) => {
-    console.log(
-      'sortableFunction',
-      value,
-      direction && direction === 'ascending' ? 'descending' : 'ascending',
-    );
-    setDirection(
-      direction && direction === 'ascending' ? 'descending' : 'ascending',
-    );
-    setColumn(value);
-
-    props.handleSort(value, direction);
+    props.handleSort(value);
   };
 
   const handleChangePage = (event, { activePage }) => {
@@ -41,22 +29,21 @@ const MachineDataTable = (props) => {
     setLimitList(
       props.list.slice((currentPage - 1) * perPage, currentPage * perPage),
     );
-    setTablelength(Math.ceil(props.list.length / perPage));
-  }, [currentPage, props.list, setLimitList, setTablelength]);
+  }, [currentPage, props.list, setLimitList]);
 
   return (
     <div>
       Total count: {totalCount}.
       <Table celled selectable sortable>
         <DataTableHeader
-          column={column}
-          direction={direction}
+          column={props.column}
+          direction={props.direction}
           handleSort={handleSort}
         />
 
         <Table.Body>
           {limitList?.length > 0 &&
-            limitList.map((row) => <DataTableRow {...row} />)}
+            limitList.map((row) => <DataTableRow {...row} key={row.id} />)}
         </Table.Body>
 
         <Table.Footer>
@@ -69,7 +56,6 @@ const MachineDataTable = (props) => {
                 lastItem={null}
                 siblingRange={1}
                 onPageChange={handleChangePage}
-                totalPages={tablelength}
                 boundaryRange={1}
               />
             </Table.HeaderCell>

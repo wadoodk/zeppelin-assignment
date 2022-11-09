@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Pagination, Grid, Header, Button } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 const DataTableRow = ({
   id,
@@ -17,15 +17,11 @@ const DataTableRow = ({
       <Table.Cell>{customer}</Table.Cell>
       <Table.Cell>{asset_type}</Table.Cell>
       <Table.Cell
-        center
         positive={service_contract}
         negative={!service_contract}>
         {service_contract ? 'true' : 'false'}
       </Table.Cell>
-      <Table.Cell
-        center
-        positive={warranty}
-        negative={!warranty}>
+      <Table.Cell positive={warranty} negative={!warranty}>
         {warranty ? 'true' : 'false'}
       </Table.Cell>
     </Table.Row>

@@ -4,28 +4,37 @@ import {
   Grid,
   Header,
   Segment,
-  // Sidebar,
 } from 'semantic-ui-react';
 import _ from 'lodash';
 import machineData from '../../Data/machine_data';
 import TableFilter from './TableFilter';
 import MachineDataTable from './DataTable/MachineDataTable';
+import AssetTypeGraph from './Graphs/AssetTypeGraph';
 
 const DispatcherMain = () => {
+  const [column, setColumn] = useState(null);
+  const [direction, setDirection] = useState('ascending');
   const [dataList, setDataList] = useState(machineData);
-  const [customers] = useState([...new Set(machineData.map((item) => item.customer))]);
+  const [customers] = useState([
+    ...new Set(machineData.map((item) => item.customer)),
+  ]);
 
-  const handleSort = (column, direction) => {
-    console.log('handleSort', column, direction);
+  const handleSort = (value) => {
+    console.log('handleSort', value, direction);
+    const newDirection =
+      direction && direction === 'ascending' ? 'descending' : 'ascending';
+
+    setDirection(newDirection);
+    setColumn(value);
     setDataList(
-      _.orderBy(dataList, column, direction === 'ascending' ? 'asc' : 'desc'),
+      _.orderBy(dataList, value, newDirection === 'ascending' ? 'asc' : 'desc'),
     );
   };
 
   const handleFilter = (value) => {
-    console.log('handleFilter', value);
-    const list = machineData.filter((data) => data.customer === value);
-    setDataList(list);
+    setDataList(machineData.filter((data) => data.customer === value));
+    setDirection('ascending');
+    setColumn(null);
   };
 
   return (
@@ -33,36 +42,31 @@ const DispatcherMain = () => {
       <Segment style={{ padding: '8em 0em' }} vertical>
         <Grid container stackable verticalAlign="middle">
           <Grid.Row>
-            <Grid.Column width={8}>
+            <Grid.Column>
               <Header as="h3" style={{ fontSize: '2em' }}>
-                We Help Companies and Companions
+                Dispatchers Page
               </Header>
               <p style={{ fontSize: '1.33em' }}>
                 We can give your company superpowers to do things that they
                 never thought possible. Let us delight your customers and
                 empower your needs... through pure data analytics.
               </p>
-              <Header as="h3" style={{ fontSize: '2em' }}>
-                We Make Bananas That Can Dance
-              </Header>
-              <p style={{ fontSize: '1.33em' }}>
-                Yes that's right, you thought it was the stuff of dreams, but
-                even bananas can be bioengineered.
-              </p>
-            </Grid.Column>
-            <Grid.Column floated="right" width={6}>
-              {/* <Image
-                bordered
-                rounded
-                size="large"
-                src="/images/wireframe/white-image.png"
-              /> */}
+              {dataList && dataList.length > 0 && (
+                <AssetTypeGraph data={dataList} />
+              )}
             </Grid.Column>
           </Grid.Row>
 
           <Grid.Row>
             <Grid.Column textAlign="center">
-              <TableFilter customers={customers} handleFilter={handleFilter} />
+              <TableFilter
+                customers={customers}
+                handleFilter={handleFilter}
+                column={column}
+                direction={direction}
+                setColumn={setColumn}
+                setDirection={setDirection}
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

@@ -9,8 +9,9 @@ const SearchSerialForm = (props) => {
 
   const handleChange = (e, { name, value }) => setSerialNumber(value);
 
-  const handleSubmit = () => {
-    props.handleSubmit({ serial_number: serialNumber });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.handleSubmit(serialNumber);
     setSerialNumber('');
   };
   return (
