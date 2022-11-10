@@ -20,7 +20,6 @@ const DispatcherMain = () => {
   ]);
 
   const handleSort = (value) => {
-    console.log('handleSort', value, direction);
     const newDirection =
       direction && direction === 'ascending' ? 'descending' : 'ascending';
 
