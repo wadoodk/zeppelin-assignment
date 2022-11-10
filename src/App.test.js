@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
-test('full app rendering/navigating', async () => {
+test('<App />', async () => {
   render(<App />);
   // verify page content for default route
   expect(screen.getByText(/dispatchers page/i)).toBeInTheDocument();
